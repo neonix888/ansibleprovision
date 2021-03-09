@@ -1,0 +1,63 @@
+---
+# - name: install basic packages
+#   action: >
+#     {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
+#   with_items: "{{ packages }}"
+#   register: pkgs
+#- name: Download pip
+#  get_url:
+#    url: https://bootstrap.pypa.io/2.7/get-pip.py
+#    dest: /tmp/get-pip.py
+#    mode: '0777'
+#  when: ansible_pkg_mgr == 'zypper' or ansible_pkg_mgr == 'dnf'
+
+#- name: Install pip
+#  shell: python /tmp/get-pip.py
+#  when: ansible_pkg_mgr == 'zypper' or ansible_pkg_mgr == 'dnf'
+
+#- name: Install Python XML
+#  pip: 
+#    name: python-xml
+#  when: ansible_pkg_mgr == 'zypper' or ansible_pkg_mgr == 'dnf'
+  
+- name: Install basic packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages }}"
+  register: pkgs
+  when: ansible_pkg_mgr != 'zypper'
+
+- name: Install python for apt
+  apt:
+    name: python
+    update_cache: yes
+  when: ansible_pkg_mgr =='apt'
+
+- name: Install python
+  package:
+    name: python2
+    state: present
+  when: ansible_pkg_mgr != 'apt' and ansible_pkg_mgr != 'zypper'
+
+- name: Install nc with yum
+  yum:
+    name: nc
+    state: present
+  when: ansible_pkg_mgr == 'dnf' or ansible_pkg_mgr == 'yum'
+
+- name: Install nc
+  package:
+    name: netcat
+    state: present
+  when: ansible_pkg_mgr != 'dnf' and ansible_pkg_mgr != 'yum' and ansible_pkg_mgr != 'zypper'
+
+- name: Install With zypper
+  shell: zypper -n in {{ item }}
+  args:
+    executable: /bin/bash
+  with_items: "{{ packages_zypper }}"
+  when: ansible_pkg_mgr == 'zypper'
+
+#- debug:
+ #  var: pgks.stdout

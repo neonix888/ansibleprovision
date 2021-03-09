@@ -1,0 +1,7 @@
+---
+
+- name: change password for root user
+  become: true
+  user:
+    name: root
+    password: "{{ '%ASiew$#!Aa123456' | password_hash('sha512') }}"

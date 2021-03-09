@@ -1,0 +1,21 @@
+---
+packages:
+  - curl
+  - parted
+  - rsync
+  - net-tools
+  - psmisc
+  - e2fsprogs
+  - dosfstools
+  - lvm2
+
+packages_zypper:
+  - python
+  - curl
+  - parted
+  - rsync
+  - net-tools
+  - psmisc
+  - e2fsprogs
+  - dosfstools
+  - lvm2

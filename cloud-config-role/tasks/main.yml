@@ -1,0 +1,12 @@
+---
+- name: Enable root
+  lineinfile:
+    path: /etc/cloud/cloud.cfg
+    regexp: '.*disable_root.*'
+    line: 'disable_root: false'
+
+- name: Enable ssh pwauth
+  lineinfile:
+    path: /etc/cloud/cloud.cfg
+    regexp: '.*ssh_pwauth.*'
+    line: 'ssh_pwauth: true'

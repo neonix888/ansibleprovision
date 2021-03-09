@@ -1,0 +1,9 @@
+---
+- name: Config Linux VM's
+  hosts: all
+  become: yes
+  roles:
+    - sshd-config-role
+    - change-root-password-role
+    - cloud-config-role
+    - install-packages-role
